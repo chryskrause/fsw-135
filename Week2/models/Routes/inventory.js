@@ -1,6 +1,5 @@
 const express = require("express")
 // const app = express()
-const mongoose = require("mongoose")
 const inventory = express.Router()
 const Index = require("../index")
 
@@ -22,12 +21,16 @@ inventory.get("/", (req, res, next) => {
 })
 
 //post
-// const newIndex = new Index(req.body)
-
-// newIndex.save(err => {
-//     if(err) return res.status(500).send(err);
-//     return res.status(200).send(newIndex)
-// })
+inventory.post("/", (req, res, next) => {
+    const newItem = new item(req.body)
+    newItem.save((err, savedItem) => {
+        if(err){
+            res.status(500)
+            return next(err)
+        }
+        return res.status(201).send(savedItem)
+    })
+})
 
 //delete
 inventory.delete("/:indexID", (req, res, next) => {
